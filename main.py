@@ -14,6 +14,11 @@ playerSpeedChange = 0
 def player(playerX, playerY):
     window.blit(playerIcon, (playerX, playerY))
 
+enemyIcon = pg.image.load('enemy1.png')
+enemyXcoord = 360
+enemyYcoord = 50
+def enemy(enemyX, enemyY):
+    window.blit(enemyIcon, (enemyX, enemyY))
 
 isClose = True
 while isClose:
@@ -37,4 +42,5 @@ while isClose:
     elif playerXcoord >= 740:
         playerXcoord = 740
     player(playerXcoord, playerYcoord)
+    enemy(enemyXcoord, enemyYcoord)
     pg.display.update()
