@@ -1,7 +1,7 @@
 import pygame as pg
 
 pg.init()
-window = pg.display.set_mode((700, 600))
+window = pg.display.set_mode((800, 600))
 pg.display.set_caption("Space Invaders")
 icon = pg.image.load('Caption.png')
 pg.display.set_icon(icon)
@@ -32,5 +32,9 @@ while isClose:
                 playerSpeedChange = 0
 
     playerXcoord += playerSpeedChange
+    if playerXcoord <= 0:
+        playerXcoord = 0
+    elif playerXcoord >= 740:
+        playerXcoord = 740
     player(playerXcoord, playerYcoord)
     pg.display.update()
