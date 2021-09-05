@@ -3,7 +3,8 @@ import pygame as pg
 pg.init()
 window = pg.display.set_mode((700, 600))
 pg.display.set_caption("Space Invaders")
-
+icon = pg.image.load('')
+pg.display.set_icon(icon)
 
 isClose = True
 while isClose:
