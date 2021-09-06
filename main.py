@@ -8,7 +8,7 @@ window = pg.display.set_mode((800, 600))
 pg.display.set_caption("Space Invaders")
 icon = pg.image.load('Caption.png')
 pg.display.set_icon(icon)
-background = pg.image.load('space.png')
+background = pg.image.load('space2.png')
 
 #
 playerIcon = pg.image.load('player.png')
@@ -37,7 +37,7 @@ enemyXcoord = []
 enemyYcoord = []
 enemySpeedChange = []
 enemyHightChange = []
-numOfEnemies = 4
+numOfEnemies = 6
 for i in range(numOfEnemies):
     if (i % 2 == 0):
         enemyIcon.append(pg.image.load('enemy1.png'))
@@ -69,7 +69,7 @@ def bullet(bulletX, bulletY):
 
 def collision(enemyXcoord, enemyYcoord, bulletXcoord, bulletYcoord):
     isCollision = math.sqrt((math.pow(enemyXcoord - bulletXcoord, 2)) + (math.pow(enemyYcoord - bulletYcoord, 2)))
-    if isCollision < 27:
+    if isCollision < 30:
         return True
     else:
         return False
