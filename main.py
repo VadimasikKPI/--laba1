@@ -1,5 +1,6 @@
 import pygame as pg
 import math
+import random
 
 #
 pg.init()
@@ -17,6 +18,9 @@ playerSpeedChange = 0
 
 score = 0
 font = pg.font.Font('freesansbold.ttf', 30)
+gameOver = pg.font.Font('freesansbold.ttf', 50)
+counter = 0
+
 
 def showScore(scoreXcoord, scoreYcoord):
     totalScore = font.render("Score: " + str(score), True, (255, 255, 255))
@@ -28,15 +32,25 @@ def player(playerX, playerY):
 
 
 #
-enemyIcon = pg.image.load('enemy1.png')
-enemyXcoord = 360
-enemyYcoord = 50
-enemySpeedChange = 0.15
-enemyHightChange = 40
+enemyIcon = []
+enemyXcoord = []
+enemyYcoord = []
+enemySpeedChange = []
+enemyHightChange = []
+numOfEnemies = 4
+for i in range(numOfEnemies):
+    if (i % 2 == 0):
+        enemyIcon.append(pg.image.load('enemy1.png'))
+    else:
+        enemyIcon.append(pg.image.load('enemy2.png'))
+    enemyXcoord.append(random.randint(0, 800))
+    enemyYcoord.append(random.randint(50, 100))
+    enemySpeedChange.append(0.15)
+    enemyHightChange.append(40)
 
 
-def enemy(enemyX, enemyY):
-    window.blit(enemyIcon, (enemyX, enemyY))
+def enemy(enemyX, enemyY, i):
+    window.blit(enemyIcon[i], (enemyX, enemyY))
 
 
 #
@@ -59,6 +73,15 @@ def collision(enemyXcoord, enemyYcoord, bulletXcoord, bulletYcoord):
         return True
     else:
         return False
+
+
+def end_game_win():
+    gameOverTitle = gameOver.render("YOU WIN! CONGRATULATIONS", True, (255, 255, 255))
+    window.blit(gameOverTitle, (10, 250))
+
+def end_game_lose():
+    gameOverTitle = gameOver.render("YOU LOSE! TRY NEXT TIME!", True, (255, 255, 255))
+    window.blit(gameOverTitle, (50, 250))
 
 
 #
@@ -92,13 +115,31 @@ while isClose:
         playerXcoord = 740
 
     #
-    enemyXcoord += enemySpeedChange
-    if enemyXcoord <= 0:
-        enemySpeedChange = 0.15
-        enemyYcoord += enemyHightChange
-    elif enemyXcoord >= 740:
-        enemySpeedChange = -0.15
-        enemyYcoord += enemyHightChange
+    for i in range(numOfEnemies):
+        enemyXcoord[i] += enemySpeedChange[i]
+        if enemyXcoord[i] <= 0:
+            enemySpeedChange[i] = 0.15
+            enemyYcoord[i] += enemyHightChange[i]
+        elif enemyXcoord[i] >= 740:
+            enemySpeedChange[i] = -0.15
+            enemyYcoord[i] += enemyHightChange[i]
+
+        isCollision = collision(enemyXcoord[i], enemyYcoord[i], bulletXcoord, bulletYcoord)
+        if isCollision:
+            bulletYcoord = 470
+            bulletIsReady = "Ready"
+            score += 10
+            enemyYcoord[i] = 2000
+            counter += 1
+        enemy(enemyXcoord[i], enemyYcoord[i], i)
+        if counter == numOfEnemies:
+            end_game_win()
+            break
+        if enemyYcoord[i]>400 and enemyYcoord[i]<1900 :
+            for j in range(numOfEnemies):
+                enemyYcoord[j] = 2000
+            end_game_lose()
+            break
 
     #
     if bulletIsReady == "Not ready":
@@ -108,14 +149,7 @@ while isClose:
         bulletIsReady = "Ready"
         bulletYcoord = 470
 
-    isCollision = collision(enemyXcoord, enemyYcoord, bulletXcoord, bulletYcoord)
-    if isCollision:
-        bulletYcoord = 470
-        bulletIsReady = "Ready"
-        score += 10
-
     #
     player(playerXcoord, playerYcoord)
     showScore(10, 10)
-    enemy(enemyXcoord, enemyYcoord)
     pg.display.update()
