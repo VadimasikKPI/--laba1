@@ -47,7 +47,7 @@ for i in range(numOfEnemies):
     enemyXcoord.append(random.randint(0, 800))
     enemyYcoord.append(random.randint(50, 100))
     enemySpeedChange.append(0.15)
-    enemyHightChange.append(150)
+    enemyHightChange.append(40)
 
 #Функція яка виводить ворогів на екран
 def enemy(enemyX, enemyY, i):
